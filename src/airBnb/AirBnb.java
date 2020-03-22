@@ -37,6 +37,8 @@ public class AirBnb {
 
 		//calling trip method
 		trip(driver,prop.getProperty("url"));
+		// close the browser
+		driver.close();
 	}
 	public static void trip(WebDriver driver,String url) throws InterruptedException {
 		/**The Description of the method to explain what the method does
@@ -118,6 +120,7 @@ public class AirBnb {
 			if(i==0 || i==2) {
 				// print the 1 and 3 element from the displayed places to stay for given selection
 				System.out.println(" Places to Stay "+i+" => "+listPlacesTOStay.get(i).getText());
+				System.out.println("=================");
 			}
 		}}
 		catch(Exception e){
