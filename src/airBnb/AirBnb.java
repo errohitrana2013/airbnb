@@ -12,6 +12,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -68,6 +69,7 @@ public class AirBnb {
 
 		String wherePropSelect_1="//*[@class='_qcpa4n']//*[contains(text(),'"+prop.getProperty("wherePropSelect")+"')]";
 		List<WebElement> dropDownList=driver.findElements(By.xpath(wherePropSelect_1));
+		wait.until(ExpectedConditions.visibilityOfAllElements(dropDownList));
 		for(int i=0; i<dropDownList.size();i++) {
 			//			System.out.println(dropDownList.get(i).getText());
 			// checking condition where element is match with given element
@@ -137,17 +139,26 @@ public class AirBnb {
 			js.executeScript("arguments[0].scrollIntoView(true);", allExperiences);
 			// List of places to stay is store in Webelement 
 			List<WebElement> listPlacesTOStay=driver.findElements(By.cssSelector(prop.getProperty("listPlacesTOStayCss")));
+			List<WebElement> listPlacesTOStay_Links=driver.findElements(By.cssSelector(prop.getProperty("listPlacesToStay_LinksCss")));
 			// waiting for list Places to Stay to visible 
 			wait.until(ExpectedConditions.visibilityOfAllElements(listPlacesTOStay));
 
+			Actions action=new Actions(driver);
 			for(int i=0; i<listPlacesTOStay.size();i++) {
+			listPlacesTOStay=driver.findElements(By.cssSelector(prop.getProperty("listPlacesTOStayCss")));
+			listPlacesTOStay_Links=driver.findElements(By.cssSelector(prop.getProperty("listPlacesToStay_LinksCss")));
 				if(i==0 || i==2) {
 					int j=i+1;
 					WebElement element = listPlacesTOStay.get(i);
-					js.executeScript("arguments[0].scrollIntoView(true);", element);
-					Thread.sleep(100);
+					String url_1=listPlacesTOStay_Links.get(i).getAttribute("href");
 					// print the 1 and 3 element from the displayed places to stay for given selection
-					System.out.println(" Places to Stay "+j+" => "+listPlacesTOStay.get(i).getText());
+					System.out.println(" Places to Stay "+j+" => "+element.getText());
+					
+					driver.navigate().to(url_1);
+					js.executeScript("return document.readyState").equals("complete");
+					driver.navigate().back();
+					js.executeScript("return document.readyState").equals("complete");
+					
 					System.out.println("=================");
 				}
 			}}
