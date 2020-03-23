@@ -7,6 +7,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,7 +19,7 @@ public class AirBnb {
 	
 	// object of properties class
 	static Properties prop=new Properties();
-
+	
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		// Object of FileInputStream class 
@@ -50,8 +51,11 @@ public class AirBnb {
 		WebElement where=driver.findElement(By.xpath(prop.getProperty("whereXpath")));
 		// Created the object of WebDriverWait 
 		WebDriverWait wait=new WebDriverWait(driver,2);
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		// wait till page is loaded 
+		js.executeScript("return document.readyState").equals("complete");
 		// wait till the where element visible 
-		wait.until(ExpectedConditions.visibilityOf(where));
+//		wait.until(ExpectedConditions.visibilityOf(where));
 		// enter the text in where textbox
 		where.sendKeys(prop.getProperty("whereProp"));
 
@@ -95,7 +99,9 @@ public class AirBnb {
 		driver.findElement(By.xpath(prop.getProperty("closeguestsXpath"))).click();
 		// click on submit button
 		driver.findElement(By.xpath(prop.getProperty("submitButtonXpath"))).click();
-
+		// wait till page to load
+		js.executeScript("return document.readyState").equals("complete");
+		
 		// stored the Price button element in price variable 
 		WebElement price=driver.findElement(By.xpath(prop.getProperty("priceButtonXpath")));
 		// waiting for price element to visible 
@@ -109,7 +115,9 @@ public class AirBnb {
 		wait.until(ExpectedConditions.visibilityOfAllElements(priceBox));
 		// set the max and min price range
 		setPrice(driver,priceBox,prop.getProperty("minPrice"), prop.getProperty("maxPrice"));
-
+		// wait till page to load
+		js.executeScript("return document.readyState").equals("complete");
+		
 		try {
 		// List of places to stay is store in Webelement 
 		List<WebElement> listPlacesTOStay=driver.findElements(By.cssSelector(prop.getProperty("listPlacesTOStayCss")));
