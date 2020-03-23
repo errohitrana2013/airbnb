@@ -37,7 +37,12 @@ public class AirBnb {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		//calling trip method
+		try {
 		trip(driver,prop.getProperty("url"));
+		}
+		catch(Exception e) {
+			System.out.println(driver.findElement(By.cssSelector(prop.getProperty("websiteNotWorkCss"))).getText());
+		}
 		// close the browser
 		driver.close();
 	}
