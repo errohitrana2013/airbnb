@@ -64,9 +64,9 @@ public class AirBnb {
 		//		wait.until(ExpectedConditions.visibilityOf(where));
 		// enter the text in where textbox
 		where.sendKeys(prop.getProperty("whereProp"));
-		Thread.sleep(200);
+		Thread.sleep(300);
 		// where elements list stored in dropDownlist  
-
+		try {
 		String wherePropSelect_1="//*[@class='_qcpa4n']//*[contains(text(),'"+prop.getProperty("wherePropSelect")+"')]";
 		List<WebElement> dropDownList=driver.findElements(By.xpath(wherePropSelect_1));
 		wait.until(ExpectedConditions.visibilityOfAllElements(dropDownList));
@@ -79,6 +79,11 @@ public class AirBnb {
 				dropDownList.get(i).click();
 				break;
 			}
+		}
+		}
+		catch(Exception e){
+			System.out.println("Sicily, Italy experiences not found in WHERE drop down ");
+			driver.close();
 		}
 		try {
 			// click on ok to close the cookies popup 
@@ -159,7 +164,6 @@ public class AirBnb {
 					driver.navigate().back();
 					js.executeScript("return document.readyState").equals("complete");
 					
-					System.out.println("=================");
 				}
 			}}
 		catch(Exception e){
